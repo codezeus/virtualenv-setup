@@ -1,10 +1,10 @@
-# Virtaulenv and Virtualenvwrapper Setup
+# Virtualenv and Virtualenvwrapper Setup
 
 When starting a new Python project, it's best to keep your project dependencies
 isolated from your host and other potential projects. For Python, two of our
 favorite tools to handle this are
-[virtualenv](https://pypi.python.org/pypi/virtualenv/14.0.5) and
-[virtualenvwrapper](https://pypi.python.org/pypi/virtualenvwrapper/4.7.1).
+[virtualenv](https://pypi.python.org/pypi/virtualenv/15.1.0) and
+[virtualenvwrapper](https://pypi.python.org/pypi/virtualenvwrapper/4.7.2).
 
 ## How does it work?
 
@@ -54,14 +54,16 @@ The next step for setup involves editing your `~/.bashrc` file and adding the
 following lines:
 
 ```
-export WORKON_HOME=~/.virtualenvs
-export PROJECT_HOME=~/projects
-export PIP_VIRTUALENV_BASE=~/.virtualenvs
-source /usr/local/bin/virtualenvwrapper.sh
+if [ -d "~/.virtualenvs" ]; then
+  export WORKON_HOME=~/.virtualenvs
+  export PROJECT_HOME=~/projects
+  export PIP_VIRTUALENV_BASE=~/.virtualenvs
+  source /usr/local/bin/virtualenvwrapper.sh
+fi
 ```
 
 If you chose different names for the directories you created then remember to
-use those names in the .bashrc file. Our final step is to install the hooks.
+use those names in the `.bashrc` file. Our final step is to install the hooks.
 You can find the relevant hooks in the `.virtualenvs/` directory in this
 repository. If you cloned this locally, you can run:
 
@@ -143,8 +145,8 @@ the host packages.
 
 ## Project Hooks
 
-You may be wondering why some of the hooks we provided have pre-written scripts
-in them. This is mainly gives us the ability to create project specific hooks.
+You may be wondering why some of the hooks we've provided have pre-written scripts
+in them. This mainly gives us the ability to create project specific hooks.
 You'll see specifically in the `postactivate` hook that we call a file called
 `bin/postactivate` in the project if it exists after enabling the virtualenv.
 This allows us to run any bash script after successfully entering the
@@ -158,7 +160,7 @@ such as secret keys, passwords, or the setting module. For instance, a sample
 export DJANGO_SETTINGS_MODULE=my_app.settings
 ```
 
-Now when we do `workonn my_app` we will call our script after entering the
+Now when we do `workon my_app` we will call our script after entering the
 environment and we have access to the `django-admin` command instead of using
 `python manage.py` to run Django commands.
 
@@ -182,6 +184,6 @@ services, or anything else we may need.
 One last thing we will mention is that virtualenvwrapper has the ability to call
 templates from `mkproject`. While this can be advanced to develop, we borrowed
 from the official Django template hook to create our own project template hook
-[here](https://github.com/codezeus/virtualenvwrapper.codezeus). To learn more
+[here](https://github.com/dansackett/virtualenvwrapper.codezeus). To learn more
 about project template, read on the virtualenvwrapper
 [docs](http://virtualenvwrapper.readthedocs.io/en/latest/developers.html?highlight=template#creating-a-new-template).
